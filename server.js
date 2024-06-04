@@ -1,7 +1,7 @@
 //Import packages and files
-const express = require('express');
-const db = require('./config/connection');
-const routes = require('./routes');
+const express = require("express");
+const db = require("./config/connection");
+const routes = require("./routes");
 
 // Environment variables
 const PORT = process.env.PORT || 3001;
@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(routes);
 
 // Connect to MongoDB database and start server
-db.once('open', () => {
+db.once("open", () => {
   app.listen(PORT, () => {
     console.log(`API server running on port ${PORT}!`);
   });
