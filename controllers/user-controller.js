@@ -36,7 +36,7 @@ const userController = {
   },
 
   // update a user by id
-  async updateUser({ params, body }, res) {
+  async updateUserById({ params, body }, res) {
     try {
       const userData = await User.findOneAndUpdate({ _id: params.id }, body, {
         new: true,
@@ -53,7 +53,7 @@ const userController = {
   },
 
   // delete a user by id
-  async deleteUser({ params }, res) {
+  async deleteUserById({ params }, res) {
     try {
       const userData = await User.findOneAndDelete({ _id: params.id });
       if (!userData) {
@@ -85,18 +85,27 @@ const userController = {
   },
 
   // remove a friend from a user's friend list
-  async deleteFriend({ params }, res) {
+  async removeFriend({ params }, res) {
     try {
-      const userData = await User.findOneAndUpdate(
+      const dbUserData = await User.findOneAndUpdate(
         { _id: params.userId },
         { $pull: { friends: params.friendId } },
         { new: true }
       );
-      if (!userData) {
-        res.status(404).json({ message: "No user found with this id!" });
-        return;
+
+      if (!dbUserData) {
+        return res.status(404).json({ message: "No user with this id!" });
       }
-      res.json(userData);
+
+      // Check if friend was removed
+      const removed = !dbUserData.friends.includes(params.friendId);
+
+      // Return response with appropriate message
+      if (removed) {
+        res.json({ message: "Friend removed successfully!", dbUserData });
+      } else {
+        res.json(dbUserData);
+      }
     } catch (err) {
       res.status(400).json(err);
     }
