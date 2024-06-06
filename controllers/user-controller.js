@@ -14,14 +14,13 @@ const userController = {
   // get one user by id
   async getUserById({ params }, res) {
     try {
-      const userData = await User.findOne({ _id: params.id });
+      const userData = await User.findOne({ _id: params.userId });
       if (!userData) {
-        res.status(404).json({ message: "No user found with this id!" });
-        return;
+        return res.status(404).json({ message: "No user found with this id!" });
       }
-      res.json(userData);
+      return res.json(userData);
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).json(err);
     }
   },
 
@@ -38,7 +37,7 @@ const userController = {
   // update a user by id
   async updateUserById({ params, body }, res) {
     try {
-      const userData = await User.findOneAndUpdate({ _id: params.id }, body, {
+      const userData = await User.findOneAndUpdate({ _id: params.userId }, body, {
         new: true,
         runValidators: true,
       });
@@ -55,7 +54,7 @@ const userController = {
   // delete a user by id
   async deleteUserById({ params }, res) {
     try {
-      const userData = await User.findOneAndDelete({ _id: params.id });
+      const userData = await User.findOneAndDelete({ _id: params.userId });
       if (!userData) {
         res.status(404).json({ message: "No user found with this id!" });
         return;
