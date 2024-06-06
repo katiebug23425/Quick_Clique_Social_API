@@ -1,9 +1,10 @@
-// Import Mongoose connection
+// Imports
+require("dotenv").config(); 
 const mongoose = require("mongoose");
 
 // Connect to MongoDB database
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost:27017/Quick_Clique",
+  process.env.MONGODB_URI,
   {
     useFindAndModify: false,
     useNewUrlParser: true,
