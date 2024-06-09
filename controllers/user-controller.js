@@ -84,31 +84,31 @@ const userController = {
   },
 
   // remove a friend from a user's friend list
-  async removeFriend({ params }, res) {
-    try {
-      const dbUserData = await User.findOneAndUpdate(
-        { _id: params.userId },
-        { $pull: { friends: params.friendId } },
-        { new: true }
-      );
+async removeFriend({ params }, res) {
+  try {
+    const dbUserData = await User.findOneAndUpdate(
+      { _id: params.userId },
+      { $pull: { friends: params.friendId } },
+      { new: true }
+    );
 
-      if (!dbUserData) {
-        return res.status(404).json({ message: "No user with this id!" });
-      }
-
-      // Check if friend was removed
-      const removed = !dbUserData.friends.includes(params.friendId);
-
-      // Return response with appropriate message
-      if (removed) {
-        res.json({ message: "Friend removed successfully!", dbUserData });
-      } else {
-        res.json(dbUserData);
-      }
-    } catch (err) {
-      res.status(400).json(err);
+    if (!dbUserData) {
+      return res.status(404).json({ message: "No user with this id!" });
     }
-  },
+
+    // Check if friend was removed
+    const removed = dbUserData.friends.indexOf(params.friendId) === -1;
+
+    // Return response with appropriate message
+    if (removed) {
+      res.json({ message: "Friend removed successfully!", dbUserData });
+    } else {
+      res.json({ message: "Friend not found or not removed.", dbUserData });
+    }
+  } catch (err) {
+    res.status(500).json({ message: "An error occurred while removing the friend.", error: err });
+  }
+},
 };
 
 module.exports = userController;
