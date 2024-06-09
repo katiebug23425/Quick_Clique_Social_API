@@ -26,17 +26,18 @@ const ThoughtController = {
   // create a new thought
   async createThought(req, res) {
     try {
-      const { thoughtText, username, userId } = req.body;
+      const { thoughtText, username } = req.body;
 
       // Create the new thought
       const newThought = await Thought.create({
         thoughtText,
         username,
-        userId,
       });
 
       // Push the created thought's _id to the associated user's thoughts array field
-      await User.findByIdAndUpdate(userId, {
+      await User.findOneAndUpdate({
+        username: username,
+      }, {
         $push: { thoughts: newThought._id },
       });
 
