@@ -6,6 +6,7 @@
 An API for a social network app for users to share posts, comment on posts and create & edit a friends list using MongoDB and Mongoose
 
 ## Usage: 
+This API allows for the to ability to create new posts (thoughts), comment on those posts (reactions), create new users, add friends between users and edit and/or delete posts, reactions, friends and users. 
 
 
 ## Screenshots:
