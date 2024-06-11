@@ -17,6 +17,8 @@ This API allows for the to ability to create new posts (thoughts), comment on th
 
 ## Link to walk through video:
 
+https://app.screencastify.com/v2/manage/videos/xX5y2AA4rLDVw9Etof6V
+
 
 ## Credits:
 Tutor Joem Mervyll Casusi
